@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Movimientos</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+</head>
+<body>
+
+<table class="table">
+    <thead>
+    <tr>
+        <th scope="col">Id</th>
+        <th scope="col">Concepto Movimiento</th>
+        <th scope="col">Monto Dinero</th>
+        <th scope="col">Monto Negativo</th>
+        <th scope="col">Monto Positivo</th>
+        <th scope="col">Empleado</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="movement : ${movements}">
+        <td th:text="${movement.id}"></td>
+        <td th:text="${movement.montoDinero}"></td>
+        <td th:text="${movement.montoPositivo}"></td>
+        <td th:text="${movement.montoNegativo}"></td>
+        <td th:text="${movement.conceptoMovimiento}"></td>
+        <td th:text="${movement.empleado.nombre}"></td>
+
+
+    </tr>
+    </tbody>
+</table>
+
+</body>
+<script
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous">
+
+</script>
+</html>

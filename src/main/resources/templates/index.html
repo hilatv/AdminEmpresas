@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movimiento Dinero</title>
+    <link rel="icon" href="icono.png" sizes="any" type="image/svg+xml">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@300&display=swap');
+
+        *{
+            font-family: 'Roboto Condensed', sans-serif;
+        }
+
+        body{
+            margin: 0;
+            padding: 0;
+            background-color: #a6a6d3;
+        }
+
+        .container{
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 50px;
+        }
+
+        .cardMenu{
+            margin-top: 1rem;
+            width: 50rem;
+            height: 5rem;
+            border-radius: 30px;
+            background-color: #383838;
+            display: flex;
+            justify-content: center;
+        }
+
+        .cardMenu nav ul{
+            display: flex;
+            flex-wrap: wrap;
+            gap: 50px;
+            text-align: center;
+        }
+
+        .cardMenu nav ul li{
+            list-style: none;
+            cursor: pointer;
+            padding: 5px;
+            padding-left: 12px;
+            padding-right: 12px;
+            background-color: #efefef;
+            border-radius: 1rem;
+        }
+
+        .cardMenu nav ul li:hover{
+            background-color: #7878bd;
+            color: white;
+            transition: .3s;
+        }
+
+        .card{
+            width: 500px;
+            height: 400px;
+            margin: 0 auto;
+            background-color: #F8FBFE;
+            border-radius: 8px;
+            z-index: 1;
+        }
+        
+        .tools {
+            display: flex;
+            align-items: center;
+            padding: 9px;
+        }
+
+        .circle {
+            padding: 0 4px;
+        }
+
+        .box {
+            display: inline-block;
+            align-items: center;
+            width: 10px;
+            height: 10px;
+            padding: 1px;
+            border-radius: 50%;
+        }
+
+        .red {
+            background-color: #ff605c;
+        }
+
+        .yellow {
+            background-color: #ffbd44;
+        }
+
+        .green {
+            background-color: #00ca4e;
+        }
+
+        .card__content{
+            padding: 15px;
+        }
+
+        .card_header {
+            display: flex;
+            align-items: center;
+        }
+
+        .form_heading {
+            padding-bottom: 20px;
+            font-size: 21px;
+            color: #7878bd;
+        }
+
+        .field {
+            padding-bottom: 10px;
+        }
+
+        .input {
+            border-radius: 5px;
+            background-color: #e9e9f7;
+            padding: 5px;
+            width: 80%;
+            color: #7a7ab3;
+            border: 1px solid #dadaf7
+        }
+
+        .input:focus-visible {
+            outline: 1px solid #aeaed6;
+        }
+
+        .input::placeholder {
+            color: #bcbcdf;
+        }
+
+        label {
+            color: #B2BAC8;
+            font-size: 14px;
+            display: block;
+            padding-bottom: 4px;
+        }
+
+        button {
+            background-color: #7878bd;
+            margin-top: 10px;
+            font-size: 14px;
+            padding: 7px 12px;
+            font-weight: 500;
+            color: white;
+            border-radius: 1rem;
+            border-color: #7878bd;
+        }
+
+        button:hover {
+            background-color: #5f5f9c;
+            border-color: #5f5f9c;
+        }
+
+        .buscar .card .buscarSection{
+            display: grid;
+            grid-template-columns: repeat(2,1fr);
+            grid-template-rows: repeat(auto,1fr);
+        }
+
+        .buscar .card .input{
+            width: 120%;
+        }
+
+        .buscar .card button{
+            margin-left: 4rem;
+            margin-top: 15px;
+        }
+
+        #crear .card{
+            width: 500px;
+            height: 400px;
+            margin-bottom: 1rem;
+        }
+
+        #crear .card .txField{
+            display: grid;
+            grid-template-columns: repeat(2,1fr);
+            grid-template-rows: repeat(auto,1fr);
+        }
+
+        #editar .card{
+            width: 500px;
+            height: 400px;
+            margin-bottom: 1rem;
+        }
+
+        #editar .card .txField{
+            display: grid;
+            grid-template-columns: repeat(2,1fr);
+            grid-template-rows: repeat(auto,1fr);
+        }
+
+        #crear, #editar, #eliminar{
+            display: none;
+        }
+    </style>
+</head>
+    <body>
+        <div class="container">
+            <div class="cardMenu">
+                <nav>
+                    <ul>
+                        <li onclick="location.href='movimientos'"><b>Listar<br>Movimientos</b></li>
+                        <li onclick="location.href='crearmovimiento'"><b>Crear<br>Movimiento</b></li>
+                        <li onclick="update()"><b>Editar<br>Movimiento</b></li>
+                        <li onclick="del()"><b>Eliminar<br>Movimiento</b></li>
+                    </ul>
+                </nav>
+            </div>
+            <div class="card">
+                <form th:action="@{/enterprises/movements}">
+                    <section class="buscar" >
+                        <div class="card">
+                            <div class="tools">
+                                <div class="circle">
+                                    <span class="red box"></span>
+                                </div>
+                                <div class="circle">
+                                    <span class="yellow box"></span>
+                                </div>
+                                <div class="circle">
+                                    <span class="green box"></span>
+                                </div>
+                            </div>
+                            <div class="card__content">
+                                <div class="card_header">
+                                    <h1 class="form_heading">Buscar Movimiento</h1>
+                                </div>
+                                <div class="buscarSection">
+                                    <div class="field">
+                                        <label for="mov_code">Codigo</label>
+                                        <input class="input" name="mov_code" type="text" id="id">
+                                    </div>
+                                    <div class="field">
+                                        <button class="button">Buscar</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </form>
+                <section id="crear" th:action="@{/enterprises/movements}">
+                    <div class="card">
+                        <div class="tools">
+                            <div class="circle">
+                                <span class="red box"></span>
+                            </div>
+                            <div class="circle">
+                                <span class="yellow box"></span>
+                            </div>
+                            <div class="circle">
+                                <span class="green box"></span>
+                            </div>
+                        </div>
+                        <div class="card__content">
+                            <div class="card_header">
+                                <h1 class="form_heading">Crear Movimiento</h1>
+                            </div>
+                            <div class="txField">
+                                <div class="field">
+                                    <label for="mov_code">Codigo</label>
+                                    <input class="input" name="mov_code" type="text" id="id">
+                                </div>
+                                <div class="field">
+                                    <label for="monto_dinero">Monto de dinero</label>
+                                    <input class="input" name="monto_dinero" type="text" id="montoDinero">
+                                </div>
+                                <div class="field">
+                                    <label for="montoPositivo">Monto positivo</label>
+                                    <input class="input" name="montoPositivo" type="text" id="montoPositivo">
+                                </div>
+                                <div class="field">
+                                    <label for="montoNegativo">Monto negativo</label>
+                                    <input class="input" name="montoNegativo" type="text" id="montoNegativo">
+                                </div>
+                                <div class="field">
+                                    <label for="user_encargado">Usuario encargado</label>
+                                    <input class="input" name="user_encargado" type="text" id="idUsuario">
+                                </div>
+                                <div class="field">
+                                    <button class="button">Crear</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <section id="editar">
+                    <div class="card">
+                        <div class="tools">
+                            <div class="circle">
+                                <span class="red box"></span>
+                            </div>
+                            <div class="circle">
+                                <span class="yellow box"></span>
+                            </div>
+                            <div class="circle">
+                                <span class="green box"></span>
+                            </div>
+                        </div>
+                        <div class="card__content">
+                            <div class="card_header">
+                                <h1 class="form_heading">Actualizar Movimiento</h1>
+                            </div>
+                            <div class="txField">
+                                <div class="field">
+                                    <label for="mov_code">Codigo</label>
+                                    <input class="input" name="mov_code" type="text" id="id">
+                                </div>
+                                <div class="field">
+                                    <label for="monto_dinero">Monto de dinero</label>
+                                    <input class="input" name="monto_dinero" type="text" id="montoDinero">
+                                </div>
+                                <div class="field">
+                                    <label for="montoPositivo">Monto positivo</label>
+                                    <input class="input" name="montoPositivo" type="text" id="montoPositivo">
+                                </div>
+                                <div class="field">
+                                    <label for="montoNegativo">Monto negativo</label>
+                                    <input class="input" name="montoNegativo" type="text" id="montoNegativo">
+                                </div>
+                                <div class="field">
+                                    <label for="user_encargado">Usuario encargado</label>
+                                    <input class="input" name="user_encargado" type="text" id="idUsuario">
+                                </div>
+                                <div class="field">
+                                    <button class="button">Actualizar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <section id="eliminar">
+                    <div class="card">
+                        <div class="tools">
+                            <div class="circle">
+                                <span class="red box"></span>
+                            </div>
+                            <div class="circle">
+                                <span class="yellow box"></span>
+                            </div>
+                            <div class="circle">
+                                <span class="green box"></span>
+                            </div>
+                        </div>
+                        <div class="card__content">
+                            <div class="card_header">
+                                <h1 class="form_heading">Eliminar Movimiento</h1>
+                            </div>
+                            <div class="txField">
+                                <div class="field">
+                                    <label for="mov_code">Codigo</label>
+                                    <input class="input" name="mov_code" type="text" id="id">
+                                </div>
+                                <div class="field">
+                                    <button class="button">Eliminar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+        <script>
+            let style = document.createElement('style');
+
+            function create(){
+                style.innerHTML = `
+                    #editar, #eliminar, #buscar{
+                        display: none;
+                    }
+                    #crear{
+                        display:block;
+                    }
+                `;
+                document.head.appendChild(style);
+            }
+
+            function search(){
+                style.innerHTML = `
+                    #editar, #eliminar, #crear{
+                        display: none;
+                    }
+                    #buscar{
+                        display:block;
+                    }
+                `;
+                document.head.appendChild(style);
+            }
+
+            function update(){
+                style.innerHTML = `
+                    #crear, #eliminar, #buscar{
+                        display: none;
+                    }
+                    #editar{
+                        display:block;
+                    }
+                `;
+                document.head.appendChild(style);
+            }
+
+            function del(){
+                style.innerHTML = `
+                    #editar, #crear, #buscar{
+                        display: none;
+                    }
+                    #eliminar{
+                        display:block;
+                    }
+                `;
+                document.head.appendChild(style);
+            }
+
+        </script>
+    </body>
+</html>

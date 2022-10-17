@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <meta charset="UTF-8">
+    <title>Crear Movimiento</title>
+
+</head>
+<body>
+
+<div >
+<form th:object="${nuevoMovimiento}" method="post" th:action="@{/movimiento/front}">
+
+    <label for="montoDinero">Monto Dinero:</label>
+    <input id="montoDinero" type="text" th:field="*{montoDinero}">
+
+    <label for="montoPositivo">Monto Positivo:</label>
+    <input id="montoPositivo" type="text" th:field="*{montoPositivo}">
+
+    <label for="montoNegativo">Monto Negativo:</label>
+    <input id="montoNegativo" type="text" th:field="*{montoNegativo}">
+
+    <label for="conceptoMovimiento">Concepto Movimiento:</label>
+    <input id="conceptoMovimiento" type="text" th:field="*{conceptoMovimiento}">
+
+    <label for="empleado">Empleado:</label>
+    <select id="empleado" th:field="*{empleado.id}">
+        <option th:each="empleado:${empleados}" th:text="${empleado.nombre}" th:value="${empleado.id}"></option>
+    </select>
+
+    <button type="submit">Crear Movimiento</button>
+</form>
+</div>
+
+
+</body>
+
+</html>
